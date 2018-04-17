@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_wifi_connection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="fh_swf.mechatronik.WifiConnectionActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:text="IP-Adresse:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/IpAdressTextView"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/ipAdressText"/>
+        <TextView
+                android:text="Port:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/PortTextView"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/portText"/>
+        <Button
+                android:text="Connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/ConnectIPBtn"/>
+    </LinearLayout>
+</RelativeLayout>

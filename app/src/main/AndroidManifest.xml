@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="fh_swf.mechatronik">
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <supports-screens android:resizeable="true"
+                      android:xlargeScreens="true"
+                        android:anyDensity="true"
+                    android:largeScreens="true"
+                    android:normalScreens="true"
+                    android:smallScreens="true">
+    </supports-screens>
+
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/wrench_icon"
+            android:label="Mechatronik-Steuerung"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+        <activity
+                android:name="fh_swf.mechatronik.MainActivity"
+                android:configChanges="keyboardHidden|screenSize"
+                android:label="Mechatronik-Steuerung"
+                android:launchMode="singleInstance"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.AppCompat.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name="fh_swf.mechatronik.OptionsActivity"
+                android:launchMode="singleInstance">
+        </activity>
+        <activity android:name="fh_swf.mechatronik.DeviceListActivity">
+        </activity>
+        <activity android:name="fh_swf.mechatronik.WifiConnectionActivity">
+        </activity>
+    </application>
+
+</manifest>

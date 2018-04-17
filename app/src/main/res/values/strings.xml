@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Testapp_interface</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="f1">F1</string>
+    <string name="f2">F2</string>
+    <string name="m1">M1</string>
+    <string name="m2">M2</string>
+    <string name="m3">M3</string>
+    <string name="f3">F3</string>
+    <string name="f4">F4</string>
+</resources>
