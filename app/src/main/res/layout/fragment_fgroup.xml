@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:background="@android:color/black"
+             tools:context="fh_swf.mechatronik.fragments.FGroupFragment">
+
+
+    <RadioGroup
+            android:id="@+id/radioGroupF12"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+        <RadioButton
+                android:text="F1"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:background="@drawable/radio_button_background"
+                android:button="@android:color/transparent"
+                android:layout_margin="@dimen/margin_custom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/radioButtonF1" android:layout_weight="1"/>
+        <RadioButton
+                android:text="F2"
+                android:layout_margin="@dimen/margin_custom"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:background="@drawable/radio_button_background"
+                android:button="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/radioButtonF2" android:layout_weight="1"/>
+    </RadioGroup>
+    <RadioGroup
+            android:id="@+id/radioGroupF34"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+        <RadioButton
+                android:text="F3"
+                android:layout_margin="@dimen/margin_custom"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:background="@drawable/radio_button_background"
+                android:button="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/radioButtonF3" android:layout_weight="1"/>
+        <RadioButton
+                android:text="F4"
+                android:layout_margin="@dimen/margin_custom"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:background="@drawable/radio_button_background"
+                android:button="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/radioButtonF4" android:layout_weight="1"/>
+    </RadioGroup>
+</LinearLayout>

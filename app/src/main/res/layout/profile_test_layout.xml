@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@android:color/black">
+
+
+    <RadioButton
+            android:text="RadioButton"
+            android:textColor="@android:color/white"
+            android:buttonTint="@android:color/white"
+            android:layout_width="383dp"
+            android:layout_height="157dp" tools:layout_editor_absoluteY="77dp"
+            tools:layout_editor_absoluteX="88dp" android:id="@+id/radioButton5"/>
+</android.support.constraint.ConstraintLayout>

@@ -3,6 +3,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:keepScreenOn="true"
+              android:background="@android:color/black"
 >
     <TextView android:id="@+id/title_paired_devices"
               android:layout_width="match_parent"
@@ -10,15 +12,17 @@
               android:textAppearance="?android:attr/textAppearanceLarge"
               android:text="Bitte Bluetooth-Gerät für Verbindung wählen:"
               android:visibility="gone"
-              android:background="#666"
-              android:textColor="#fff"
+              android:background="@android:color/black"
+              android:textColor="@android:color/white"
               android:paddingLeft="5dp"
     />
     <ListView android:id="@+id/paired_devices"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:stackFromBottom="false"
+              android:dividerHeight="2dp"
               android:layout_weight="1"
+              android:divider="@android:color/white"
     />
 
     <TextView
@@ -32,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Wenn keine Devices gefunden werden, bitte zuerst pairen!"
+            android:textColor="@android:color/white"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout

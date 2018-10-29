@@ -1,4 +1,4 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,9 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.google.common.net.InetAddresses;
+import fh_swf.mechatronik.R;
+import fh_swf.mechatronik.classes.WiFiConnection;
+import fh_swf.mechatronik.model.OptionsModel;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * Aktivität zur Eingabe einer IP-Adresse und eine Portnummer, sowie der Möglichkeit über einen Button
@@ -24,7 +27,6 @@ public class WifiConnectionActivity extends AppCompatActivity {
     private EditText port;                      // Portnummer des Zielgeräts zur Herstellung einer drahtlosen-UDP-Verbindung.
     private Button connectBtn;                  // Button um die Verbindung mit den eingegeben Daten herzustellen.
     private OptionsModel optionsData;           // Objekt für den Zugriff auf die Optionsdaten, notwendig für den Übertragungsintervall.
-    private WiFiConnection wifiConnect;         // WifiConnection-Objekt.
     private InetAddress ipTest;                 // Testobjekt für die Überprüfung der IP-Adresse.
 
 
@@ -48,9 +50,9 @@ public class WifiConnectionActivity extends AppCompatActivity {
 
         optionsData = OptionsModel.getInstance();
 
-        ipAddress = (EditText) findViewById(R.id.ipAdressText);
-        port = (EditText) findViewById(R.id.portText);
-        connectBtn = (Button) findViewById(R.id.ConnectIPBtn);
+        ipAddress = findViewById(R.id.ipAdressText);
+        port = findViewById(R.id.portText);
+        connectBtn = findViewById(R.id.ConnectIPBtn);
 
         setLoadedData();
         setConnectIpBtn();
@@ -66,21 +68,22 @@ public class WifiConnectionActivity extends AppCompatActivity {
     private void setConnectIpBtn()
     {
         connectBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("UnstableApiUsage")
             @Override
             public void onClick(View v) {
 
                 try
                 {
-                    ipTest = InetAddress.getByName(ipAddress.getText().toString());  //Prüfung ob die eingebene IP-Adresse verwertbar ist.
-                } catch (UnknownHostException e) {
+                    ipTest = InetAddresses.forString(ipAddress.getText().toString()); //Prüfung ob die eingebene IP-Adresse verwertbar ist.
+                } catch (IllegalArgumentException e) {
                     e.printStackTrace();
                     Toast.makeText(WifiConnectionActivity.this, "Fehler in der IP-Adresse, bitte Eingabe prüfen!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 optionsData.setIpAddress(ipAddress.getText().toString());  //Setzen der Ip-Adresse
-                optionsData.setPort(Integer.parseInt(port.getText().toString()));       //Setzen der Portnummer.
-                new WiFiConnection();       // Initialisierung der WifiConnection-Klasse für die Verbindungsherstellung.
+                optionsData.setPort(Integer.parseInt(port.getText().toString()));       //Setzen der Portnummer
+                finish();
             }
         });
     }
@@ -96,6 +99,15 @@ public class WifiConnectionActivity extends AppCompatActivity {
     {
         ipAddress.setText(optionsData.getIpAddress());
         port.setText(String.valueOf(optionsData.getPort()));
+    }
+
+    /**
+     * Deaktivierung der zurück-Taste um Fehler oder versehentliches Betätigen zu vermeiden.
+     */
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 
 

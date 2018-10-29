@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@android:color/black"
+             tools:context="fh_swf.mechatronik.fragments.CrossFragment">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:weightSum="1" android:id="@+id/CrossLayout"
+            android:background="@drawable/back"
+            android:layout_marginRight="10dp">
+        <ImageView
+                android:layout_width="match_parent"
+                app:srcCompat="@drawable/ic_arrow_upward_white_24dp_2x"
+                android:icon="@android:drawable/arrow_up_float"
+                android:id="@+id/imageView" android:scaleType="fitCenter" android:layout_height="0dp" android:layout_weight="0.33"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:layout_weight="0.33" android:weightSum="1">
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    app:srcCompat="@drawable/ic_arrow_back_white_24dp"
+                    android:id="@+id/imageView2" android:scaleType="fitCenter"
+                    android:layout_height="wrap_content"/>
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    app:srcCompat="@drawable/ic_arrow_forward_white_24dp"
+                    android:id="@+id/imageView3" android:scaleType="fitCenter"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <ImageView
+                android:layout_width="match_parent"
+                app:srcCompat="@drawable/ic_arrow_downward_white_24dp"
+                android:id="@+id/imageView4" android:scaleType="fitCenter" android:layout_height="0dp" android:layout_weight="0.34"/>
+    </LinearLayout>
+
+</FrameLayout>

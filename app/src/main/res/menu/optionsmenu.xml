@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/options"
-          android:title="Optionen"
+          android:title="Profile"
           android:icon="@drawable/ic_settings_black_24dp"/>
 
 </menu>

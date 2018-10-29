@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:keepScreenOn="true">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:background="@android:color/black"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="match_parent">
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/black"/>
+
+        <fragment android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:id="@+id/switch_fragment"
+                  android:name="fh_swf.mechatronik.fragments.SwitchFragment"
+                  tools:layout="@layout/fragment_switch"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8">
+
+        <fragment android:layout_width="match_parent" android:layout_height="0dp"
+              android:layout_weight="1" android:name="fh_swf.mechatronik.fragments.InfoTextFragment"
+                  android:id="@+id/info_text_fragment"
+              android:background="@android:color/black"
+                tools:layout="@layout/fragment_info_text"/>
+
+        <fragment android:layout_width="match_parent" android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:name="fh_swf.mechatronik.fragments.MovingCircleFragment"
+                  android:id="@+id/moving_circle_fragment"
+                  tools:layout="@layout/fragment_moving_circle"/>
+    </LinearLayout>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@android:color/black"/>
+
+</LinearLayout>

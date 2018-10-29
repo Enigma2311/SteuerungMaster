@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main_hexapod"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:context="fh_swf.mechatronik.activities.MainActivityHexapod"
+        android:baselineAligned="false"
+        android:keepScreenOn="true">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:background="@android:color/black"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="match_parent" android:id="@+id/leftLinear">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:layout_weight="0.3">
+            <fragment
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" android:name="fh_swf.mechatronik.fragments.FGroupFragment"
+                    android:id="@+id/f_group_fragment" android:layout_weight="1.0"
+                    tools:layout="@layout/fragment_fgroup"/>
+            <fragment
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:name="fh_swf.mechatronik.fragments.ValUpDownFragment"
+                    tools:layout="@layout/fragment_val_up_down"
+                    android:id="@+id/fragment" android:layout_weight="0.5"/>
+        </LinearLayout>
+
+        <fragment android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="0.7"
+                  android:name="fh_swf.mechatronik.fragments.SwitchFragment"
+                  tools:layout="@layout/fragment_switch" android:id="@+id/switch_fragment"/>
+        <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:name="fh_swf.mechatronik.fragments.SliderFragment"
+                android:id="@+id/slider_fragment"
+                tools:layout="@layout/fragment_slider"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8" android:id="@+id/middleLinear">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:layout_weight="1"
+                android:id="@+id/replacementFrameInfoCamera">
+
+          <!--  <fragment android:layout_width="match_parent" android:layout_height="0dp"
+                      android:layout_weight="1" android:name="fh_swf.mechatronik.fragments.InfoTextFragment"
+                      android:id="@+id/info_text_fragment"
+                      android:background="@android:color/black"
+                      tools:layout="@layout/fragment_info_text"/> -->
+
+
+        </FrameLayout>
+
+        <fragment android:layout_width="match_parent" android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:name="fh_swf.mechatronik.fragments.MovingCircleFragment"
+                  android:id="@+id/moving_circle_fragment"
+                  tools:layout="@layout/fragment_moving_circle"/>
+    </LinearLayout>
+    <LinearLayout
+            android:id="@+id/rightSideLinear"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6">
+
+
+        <fragment
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:name="fh_swf.mechatronik.fragments.MGroupFragment"
+                android:id="@+id/m_group_fragment" android:layout_weight="0.5" tools:layout="@layout/fragment_mgroup"/>
+        <fragment
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:name="fh_swf.mechatronik.fragments.CrossFragment"
+                android:layout_weight="1.5"
+                android:id="@+id/crossfragment" tools:layout="@layout/fragment_cross"/>
+        <fragment
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:name="fh_swf.mechatronik.fragments.PlayPauseFragment"
+                android:id="@+id/play_pause_fragment" android:layout_weight="1"
+                tools:layout="@layout/fragment_play_pause"/>
+        <fragment
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:name="fh_swf.mechatronik.fragments.ProfileInfoFragment"
+                android:id="@+id/profile_info_fragment" android:layout_weight="1"
+                tools:layout="@layout/fragment_profile_info"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:background="@android:color/black"
+             tools:context="fh_swf.mechatronik.fragments.InfoTextFragment">
+
+    <TextView
+            android:text="XTextInfo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/infoTextTop"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"/>
+    <TextView
+            android:text="YTextInfo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:id="@+id/infoTextMiddle"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"/>
+    <TextView
+        android:text="BottmInfoText"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" android:id="@+id/infoTextBottom"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"
+        android:autoSizeTextType="uniform"/>
+
+    <TextView
+            android:text="Anzeige vom Zielgerät!"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:id="@+id/infoTextTarget"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"/>
+
+</LinearLayout>

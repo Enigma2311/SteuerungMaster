@@ -1,4 +1,7 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -8,7 +11,7 @@ package fh_swf.mechatronik;
  *
  * Created by Fabian Schäfer on 06.04.2017.
  */
-class OptionsModel {
+public class OptionsModel {
 
 
     private static OptionsModel optionsData = new OptionsModel();  // Zum Programmstart erstellte Singleton-Instanz der OptionsModel-Klasse
@@ -20,6 +23,8 @@ class OptionsModel {
     private String ipAddress;                                      // IP-Adresse des zu verbindenden Zielgeräts (UDP-Verbindung)
     private int port;                                              // Port-Nummer des zu verbindenen Zielgeräts (UDP-Verbindung)
     private String[] optionsDataSet;                               // Array für einen Datensatz der Optiosndaten (für Speichern/Laden)
+    private List<String> profileNamesList;
+    private String currentProfile;
 
 
     /**
@@ -35,59 +40,60 @@ class OptionsModel {
         bluetoothAddress = "unknown";
         ipAddress = "unknown";
         port = 0;
-        optionsDataSet = new String[6];
+        optionsDataSet = new String[7];
+        profileNamesList = new ArrayList<>();
     }
 
-    static OptionsModel getInstance() {
+    public static OptionsModel getInstance() {
         return optionsData;
     }
 
-    int getZero() {
+    public int getZero() {
         return zero;
     }
 
-    void setZero(int zero) {
+    public void setZero(int zero) {
         this.zero = zero;
     }
 
-    int getTransmissionTime() {
+    public int getTransmissionTime() {
         return transmissionTime;
     }
 
-    void setTransmissionTime(int transmissionTime) {
+    public void setTransmissionTime(int transmissionTime) {
         this.transmissionTime = transmissionTime;
     }
 
-    int getTransmissionType() {
+    public int getTransmissionType() {
         return transmissionType;
     }
 
-    void setTransmissionType(int transmissionType) {
+    public void setTransmissionType(int transmissionType) {
         this.transmissionType = transmissionType;
     }
 
-    int getProfileType() {
+    public int getProfileType() {
         return profileType;
     }
 
-    void setProfileType(int profileType) {
+    public void setProfileType(int profileType) {
         this.profileType = profileType;
     }
 
-    String getBluetoothAddress() {
+    public String getBluetoothAddress() {
         return bluetoothAddress;
     }
 
-    void setBluetoothAddress(String bluetoothAddress) {
+    public void setBluetoothAddress(String bluetoothAddress) {
         this.bluetoothAddress = bluetoothAddress;
     }
 
-    String[] getOptionsDataSet() {
+    public String[] getOptionsDataSet() {
         optionsDataSet = setOptionsArrayForSaving();
         return optionsDataSet;
     }
 
-    void setOptionsDataSet(String[] optionsDataSet) {
+    public void setOptionsDataSet(String[] optionsDataSet) {
         this.optionsDataSet = optionsDataSet;
         setOptionsArrayForLoading(optionsDataSet);
     }
@@ -112,6 +118,8 @@ class OptionsModel {
         tmpArray[2] = String.valueOf(getTransmissionType());
         tmpArray[3] = String.valueOf(getProfileType());
         tmpArray[4] = String.valueOf(getPort());
+        tmpArray[5] = getBluetoothAddress();
+        tmpArray[6] = getIpAddress();
 
         return tmpArray;
 
@@ -135,24 +143,59 @@ class OptionsModel {
         setTransmissionType(Integer.parseInt(dataToLoad[2]));
         setProfileType(Integer.parseInt(dataToLoad[3]));
         setPort(Integer.parseInt(dataToLoad[4]));
-        setIpAddress(dataToLoad[5]);
-
+        setBluetoothAddress(dataToLoad[5]);
+        setIpAddress(dataToLoad[6]);
 
     }
 
-    String getIpAddress() {
+    public String getIpAddress() {
         return ipAddress;
     }
 
-    void setIpAddress(String ipAddress) {
+    public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
-    int getPort() {
+    public int getPort() {
         return port;
     }
 
-    void setPort(int port) {
+    public void setPort(int port) {
         this.port = port;
     }
+
+    public void addProfileName (String profileNameToAdd)
+    {
+
+        profileNamesList.add(profileNameToAdd);
+
+//        int profileArrayLength = profileNamesList.length;
+//
+//        if(profileArrayLength == 0)
+//        {
+//            profileNamesList[profileArrayLength] = profileNameToAdd;
+//        }
+//        else
+//        {
+//            profileNamesList[profileArrayLength-1] = profileNameToAdd;
+//        }
+
+    }
+
+    public List<String> getProfileNamesList() {
+        return profileNamesList;
+    }
+
+    public String getCurrentProfile() {
+        return currentProfile;
+    }
+
+    public void setCurrentProfile(String currentProfile) {
+        this.currentProfile = currentProfile;
+    }
+
+    public void setProfileNamesList(List<String> profileNamesList) {
+        this.profileNamesList = profileNamesList;
+    }
+
 }

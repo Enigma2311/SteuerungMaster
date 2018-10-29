@@ -1,8 +1,14 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.classes;
 
 import android.bluetooth.BluetoothSocket;
+import fh_swf.mechatronik.model.MainModel;
+import fh_swf.mechatronik.model.OptionsModel;
+
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -13,9 +19,10 @@ import java.io.OutputStream;
 
 public class ConnectedBluetoothThread extends Thread {
 
-    private final OutputStream mOutstream; // Output-Stream für die Übersendung eines Datensatzes.
-
-    private String dataToBeSend;    // Datensatz der gesendet werden soll.
+    private final OutputStream mOutstream;        // Output-Stream für die Übersendung eines Datensatzes.
+    private String dataToBeSend;                  // Datensatz der gesendet werden soll.
+    private ScheduledExecutorService scheduler;   // Scheduler zur Wiederholung der Datenübertragung in einem Intervall.
+    private OptionsModel optionsModel = OptionsModel.getInstance(); //Objekt der Profildaten.
 
     /**
      * Konstruktor zu Initialisierung der benötigten Variablen.
@@ -28,6 +35,7 @@ public class ConnectedBluetoothThread extends Thread {
 
     ConnectedBluetoothThread(BluetoothSocket socket)
     {
+        scheduler = Executors.newScheduledThreadPool(1);
         OutputStream tmpOut = null;
         dataToBeSend = null;
 
@@ -46,10 +54,20 @@ public class ConnectedBluetoothThread extends Thread {
      * Run-Methode des Threads, welche die Daten in diesem separaten Thread überträgt.
      */
 
-    public void run(){
-
-            write(dataToBeSend);
+    public void run()
+    {
+        if(isInterrupted())
+            return;
+        else
+            scheduler.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    setDataToBeSend(MainModel.dataToStringForTransfer());
+                    write(dataToBeSend);
+                }
+            },0, optionsModel.getTransmissionTime(), TimeUnit.MILLISECONDS);
     }
+
 
     /**
      * Es wird der zu Übertragende String in Bytes zerlegt und in einem Byte-Array gespeichert. Dieses Byte-Array wird
@@ -67,6 +85,12 @@ public class ConnectedBluetoothThread extends Thread {
         try {
             mOutstream.write(msgBuffer);
         } catch (IOException e) {
+            try {
+                mOutstream.close();
+                return;
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -80,7 +104,18 @@ public class ConnectedBluetoothThread extends Thread {
      * Der zu übertragende Datensatz.
      */
 
-    void setDataToBeSend(String dataToBeSend) {
+    private void setDataToBeSend(String dataToBeSend) {
         this.dataToBeSend = dataToBeSend;
+    }
+
+    public void cancel()
+    {
+        this.interrupt();
+        scheduler.shutdown();
+        try {
+            mOutstream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

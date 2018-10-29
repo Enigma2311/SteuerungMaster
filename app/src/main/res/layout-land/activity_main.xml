@@ -214,11 +214,19 @@
                 android:layout_weight="0.5"
                 android:gravity="center"
                 android:id="@+id/textViewAccel_X"/>
+        <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textViewtest1"/>
+        <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textViewtest2"/>
     </LinearLayout>
     <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_toLeftOf="@+id/testLayout"
-            android:layout_below="@id/linear1" android:layout_marginTop="50dp">
+            android:layout_below="@id/linear1" android:layout_marginTop="50dp" android:id="@+id/switchFrame">
 
         <Switch
                 android:text="off/on"
@@ -283,12 +291,31 @@
     </RelativeLayout>
     <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_above="@+id/linear6"
-            android:layout_toStartOf="@+id/frame1" android:layout_below="@+id/buttonValDown">
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@+id/frame1" android:layout_below="@+id/buttonValDown"
+            android:id="@+id/videoFrameLayout" android:layout_above="@+id/linear6">
 
-        <WebView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/videoView">
-        </WebView>
+        <fragment android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/textureView"
+                  android:name="fh_swf.mechatronik.fragments.CameraStreamFragment"
+                  tools:layout="@layout/fragment_camera_stream"/>
+
+    </FrameLayout>
+    <Switch
+            android:text="connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_alignBottom="@+id/linear5"
+            android:layout_alignParentStart="true" android:id="@+id/connectSwitch"/>
+    <TextView
+            android:text="disconnected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/connectedText" android:layout_alignBaseline="@+id/connectSwitch"
+            android:layout_alignBottom="@+id/connectSwitch" android:layout_toEndOf="@+id/connectSwitch"/>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_below="@+id/frame1"
+            android:layout_above="@+id/linear6" android:layout_toStartOf="@+id/switchFrame"
+            android:layout_toEndOf="@id/videoFrameLayout" android:id="@+id/paintFrame">
+
     </FrameLayout>
 </RelativeLayout>

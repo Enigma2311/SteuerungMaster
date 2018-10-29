@@ -1,4 +1,4 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.model;
 
 /**
  * Hauptdatenklasse, welche alle Daten enthält die über die Hauptaktivität geändert werden können.
@@ -8,7 +8,7 @@ package fh_swf.mechatronik;
  * Created by Fabian Schäfer 15.03.2017.
  */
 
-class MainModel {
+public class MainModel {
 
     private static MainModel data = new MainModel();   // Initialisierung des Singleton-Objekts, welches von allen Klassen genutzt wird.
     private byte rb_g1_m1_glider_AS;                   // Wert des oberen Schiebereglers, abhängig von Radio-Button M1.
@@ -28,6 +28,8 @@ class MainModel {
     private byte accel_y;                              // Byte für die Werte der Neigung des Geräts nach vorne / hinten.
     private byte rb_g1;                                // Byte für die Werte der Radio-Button-Gruppe M1-M3.
     private byte rb_g2;                                // Byte für die Werte der Radio-Button-Gruppe F1-F4.
+    private String receivedMessage;
+    private boolean blocked = false;
 
     /**
      * Konstruktor welche die Daten initialisiert.
@@ -51,50 +53,72 @@ private MainModel()
     accel_x = 0;
     accel_y = 0;
     rb_g1 = 0;
+    receivedMessage = "Keine Daten empfangen";
 }
 
-    static MainModel getInstance()
+public void resetData()
+{
+    buttons = 0;
+    rb_g1_m1_cross_left_right = 0;
+    rb_g1_m1_cross_up_down = 0;
+    rb_g1_m2_cross_left_right = 0;
+    rb_g1_m2_cross_up_down = 0;
+    rb_g1_m3_cross_left_right = 0;
+    rb_g1_m3_cross_up_down = 0;
+    rb_g1_m1_glider_AS = 0;
+    rb_g1_m2_glider_AS = 0;
+    rb_g1_m3_glider_AS = 0;
+    rb_g1_m1_glider_AZ = 0;
+    rb_g1_m2_glider_AZ = 0;
+    rb_g1_m3_glider_AZ = 0;
+    accel_x = 0;
+    accel_y = 0;
+    rb_g1 = 0;
+    receivedMessage = "Keine Daten empfangen";
+}
+
+    public static MainModel getInstance()
     {
         return data;
     }
 
-    byte getButtons() {
+    public byte getButtons() {
         return buttons;
     }
 
-    void setButtons(byte buttons) {
+    public void setButtons(byte buttons) {
         this.buttons = buttons;
     }
 
-    byte getAccel_x() {
+    public byte getAccel_x() {
         return accel_x;
     }
 
-    void setAccel_x(byte accel_x) {
+    public void setAccel_x(byte accel_x) {
         this.accel_x = accel_x;
     }
 
-    byte getAccel_y() {
+    public byte getAccel_y() {
         return accel_y;
     }
 
-    void setAccel_y(byte accel_y) {
+    public void setAccel_y(byte accel_y) {
         this.accel_y = accel_y;
     }
 
-    private byte getRb_g1() {
+    public byte getRb_g1() {
         return rb_g1;
     }
 
-    void setRb_g1(byte rb_g1) {
+    public void setRb_g1(byte rb_g1) {
         this.rb_g1 = rb_g1;
     }
 
-    byte getRb_g1_m1_cross_left_right() {
+    public byte getRb_g1_m1_cross_left_right() {
         return rb_g1_m1_cross_left_right;
     }
 
-    void setRb_g1_m1_cross_left_right(byte rb_g1_m1_cross_left_right) {
+    public void setRb_g1_m1_cross_left_right(byte rb_g1_m1_cross_left_right) {
 
         if(rb_g1_m1_cross_left_right > 100)
         {
@@ -107,11 +131,11 @@ private MainModel()
         this.rb_g1_m1_cross_left_right = rb_g1_m1_cross_left_right;
     }
 
-    byte getRb_g1_m2_cross_up_down() {
+    public byte getRb_g1_m2_cross_up_down() {
         return rb_g1_m2_cross_up_down;
     }
 
-    void setRb_g1_m2_cross_up_down(byte rb_g1_m2_cross_up_down) {
+    public void setRb_g1_m2_cross_up_down(byte rb_g1_m2_cross_up_down) {
         if(rb_g1_m2_cross_up_down > 100)
         {
             rb_g1_m2_cross_up_down = 100;
@@ -123,11 +147,11 @@ private MainModel()
     this.rb_g1_m2_cross_up_down = rb_g1_m2_cross_up_down;
     }
 
-    byte getRb_g1_m2_cross_left_right() {
+    public byte getRb_g1_m2_cross_left_right() {
         return rb_g1_m2_cross_left_right;
     }
 
-    void setRb_g1_m2_cross_left_right(byte rb_g1_m2_cross_left_right) {
+    public void setRb_g1_m2_cross_left_right(byte rb_g1_m2_cross_left_right) {
         if(rb_g1_m2_cross_left_right > 100)
         {
             rb_g1_m2_cross_left_right = 100;
@@ -139,11 +163,11 @@ private MainModel()
     this.rb_g1_m2_cross_left_right = rb_g1_m2_cross_left_right;
     }
 
-    byte getRb_g1_m3_cross_up_down() {
+    public byte getRb_g1_m3_cross_up_down() {
         return rb_g1_m3_cross_up_down;
     }
 
-    void setRb_g1_m3_cross_up_down(byte rb_g1_m3_cross_up_down) {
+   public void setRb_g1_m3_cross_up_down(byte rb_g1_m3_cross_up_down) {
         if(rb_g1_m3_cross_up_down > 100)
         {
             rb_g1_m3_cross_up_down = 100;
@@ -155,11 +179,11 @@ private MainModel()
         this.rb_g1_m3_cross_up_down = rb_g1_m3_cross_up_down;
     }
 
-    byte getRb_g1_m3_cross_left_right() {
+    public byte getRb_g1_m3_cross_left_right() {
         return rb_g1_m3_cross_left_right;
     }
 
-    void setRb_g1_m3_cross_left_right(byte rb_g1_m3_cross_left_right) {
+   public void setRb_g1_m3_cross_left_right(byte rb_g1_m3_cross_left_right) {
         if(rb_g1_m3_cross_left_right > 100)
         {
             rb_g1_m3_cross_left_right = 100;
@@ -171,11 +195,11 @@ private MainModel()
         this.rb_g1_m3_cross_left_right = rb_g1_m3_cross_left_right;
     }
 
-    byte getRb_g1_m1_cross_up_down() {
+    public byte getRb_g1_m1_cross_up_down() {
         return rb_g1_m1_cross_up_down;
     }
 
-    void setRb_g1_m1_cross_up_down(byte rb_g1_m1_cross_up_down) {
+   public void setRb_g1_m1_cross_up_down(byte rb_g1_m1_cross_up_down) {
         if(rb_g1_m1_cross_up_down > 100)
         {
             rb_g1_m1_cross_up_down = 100;
@@ -191,56 +215,64 @@ private MainModel()
         return rb_g2;
     }
 
-    void setRb_g2(byte rb_g2) {
+   public void setRb_g2(byte rb_g2) {
         this.rb_g2 = rb_g2;
     }
 
-    byte getRb_g1_m1_glider_AS() {
+    public byte getRb_g1_m1_glider_AS() {
         return rb_g1_m1_glider_AS;
     }
 
-    void setRb_g1_m1_glider_AS(byte rb_g1_m1_glider_AS) {
+    public void setRb_g1_m1_glider_AS(byte rb_g1_m1_glider_AS) {
         this.rb_g1_m1_glider_AS = rb_g1_m1_glider_AS;
     }
 
-    byte getRb_g1_m2_glider_AS() {
+    public byte getRb_g1_m2_glider_AS() {
         return rb_g1_m2_glider_AS;
     }
 
-    void setRb_g1_m2_glider_AS(byte rb_g1_m2_glider_AS) {
+    public void setRb_g1_m2_glider_AS(byte rb_g1_m2_glider_AS) {
         this.rb_g1_m2_glider_AS = rb_g1_m2_glider_AS;
     }
 
-    byte getRb_g1_m3_glider_AS() {
+    public byte getRb_g1_m3_glider_AS() {
         return rb_g1_m3_glider_AS;
     }
 
-    void setRb_g1_m3_glider_AS(byte rb_g1_m3_glider_AS) {
+    public void setRb_g1_m3_glider_AS(byte rb_g1_m3_glider_AS) {
         this.rb_g1_m3_glider_AS = rb_g1_m3_glider_AS;
     }
 
-    byte getRb_g1_m1_glider_AZ() {
+    public byte getRb_g1_m1_glider_AZ() {
         return rb_g1_m1_glider_AZ;
     }
 
-    void setRb_g1_m1_glider_AZ(byte rb_g1_m1_glider_AZ) {
+    public void setRb_g1_m1_glider_AZ(byte rb_g1_m1_glider_AZ) {
         this.rb_g1_m1_glider_AZ = rb_g1_m1_glider_AZ;
     }
 
-    byte getRb_g1_m2_glider_AZ() {
+    public byte getRb_g1_m2_glider_AZ() {
         return rb_g1_m2_glider_AZ;
     }
 
-    void setRb_g1_m2_glider_AZ(byte rb_g1_m2_glider_AZ) {
+    public void setRb_g1_m2_glider_AZ(byte rb_g1_m2_glider_AZ) {
         this.rb_g1_m2_glider_AZ = rb_g1_m2_glider_AZ;
     }
 
-    byte getRb_g1_m3_glider_AZ() {
+    public byte getRb_g1_m3_glider_AZ() {
         return rb_g1_m3_glider_AZ;
     }
 
-    void setRb_g1_m3_glider_AZ(byte rb_g1_m3_glider_AZ) {
+    public void setRb_g1_m3_glider_AZ(byte rb_g1_m3_glider_AZ) {
         this.rb_g1_m3_glider_AZ = rb_g1_m3_glider_AZ;
+    }
+
+    public String getReceivedMessage() {
+        return receivedMessage;
+    }
+
+    public void setReceivedMessage(String receivedMessage) {
+        this.receivedMessage = receivedMessage;
     }
 
 
@@ -254,7 +286,7 @@ private MainModel()
      *
      */
 
-     static String dataToStringForTransfer () {
+     public static String dataToStringForTransfer() {
 
         String RB_G1 = Byte.toString(data.getRb_g1());
         String RB_G2 = Byte.toString(data.getRb_g2());
@@ -292,6 +324,13 @@ private MainModel()
          return ACCEL_X+","+ACCEL_Y+","+CROSS_AS_X+","+CROSS_AS_Y+","+GLIDER_AS+","+GLIDER_AZ+","+RB_G1+","+RB_G2+","+BUTTONS+"\n";
     }
 
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocker) {
+        this.blocked = blocker;
+    }
 
 }
 

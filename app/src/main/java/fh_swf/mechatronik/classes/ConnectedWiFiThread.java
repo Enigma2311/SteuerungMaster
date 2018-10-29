@@ -1,10 +1,14 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.classes;
 
-import android.content.Context;
-import android.widget.Toast;
-
+import fh_swf.mechatronik.model.MainModel;
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -18,25 +22,25 @@ public class ConnectedWiFiThread extends Thread {
     private DatagramSocket udpSocket;   // UDP-Socket für die Verbindungsherstellung.
     private InetAddress local;          // IP-Adresse an die die Daten gesendet werden.
     private String dataToBeSendWiFi;    // Datensatz der Übetragen wird.
+    private ScheduledExecutorService scheduler; // Scheduler zur Wiederholung der Datenübertragung in einem Intervall.
 
 
     /**
      * Konstruktor der einen Port und eine IP-Adresse übernimmt und zuweist, sowie die anderen Objekte initalisiert.
-     *
-     * @param serverPort Der von Nutzer für das Zielgerät angegeben Port.
-     * @param ipAddress  Die von einem Nutzer für das Zielgerät angegebene IP-Adresse.
      */
 
-    ConnectedWiFiThread(int serverPort, String ipAddress) {
+    ConnectedWiFiThread(DatagramSocket udp, String ip) {
 
         dataToBeSendWiFi = null;
-        server_port = serverPort;
+        server_port = 1234;
         try {
-            udpSocket = new DatagramSocket(serverPort);         // Erstellung des DatagramSockets für die UDP-Übertragung
-            local = InetAddress.getByName(ipAddress);           // Umwandlung der übergebenen IP-Adresse in das für die UDP-Datenpakete benötigte Format.
-        } catch (SocketException | UnknownHostException e) {
+            udpSocket = udp;         // Erstellung des DatagramSockets für die UDP-Übertragung
+            local = InetAddress.getByName(ip);           // Umwandlung der übergebenen IP-Adresse in das für die UDP-Datenpakete benötigte Format.
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+
+        scheduler = Executors.newScheduledThreadPool(1);
 
     }
 
@@ -47,7 +51,16 @@ public class ConnectedWiFiThread extends Thread {
 
     @Override
     public void run() {
-        write(dataToBeSendWiFi);
+
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                setDataToBeSendWiFi(MainModel.dataToStringForTransfer());
+                write(dataToBeSendWiFi);
+            }
+        },0,1, TimeUnit.SECONDS);
+
+
     }
 
     /**
@@ -74,14 +87,27 @@ public class ConnectedWiFiThread extends Thread {
      * @param dataToBeSendWiFi Der zu übertragende Datensatz.
      */
 
-    void setDataToBeSendWiFi(String dataToBeSendWiFi) {
+    private void setDataToBeSendWiFi(String dataToBeSendWiFi) {
         this.dataToBeSendWiFi = dataToBeSendWiFi;
     }
 
-    private void receiveVideo() {
+    /**
+     * Getter für das Socket.
+     * @return
+     * Socket mit dem gebundenen Port.
+     */
 
+    public DatagramSocket getUdpSocket() {
+        return udpSocket;
+    }
 
+    /**
+     * Methode um den scheduler zu beenden und den Thread sauber zu schließen.
+     */
 
+    void cancel()
+    {
+        scheduler.shutdown();
     }
 
 }

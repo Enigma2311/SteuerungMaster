@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:background="@android:color/black"
+             android:padding="10dp"
+             tools:context="fh_swf.mechatronik.fragments.SwitchFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <android.support.v7.widget.SwitchCompat
+            android:text="Power"
+            android:textSize="@dimen/text_size"
+            android:switchPadding="@dimen/_20sdp"
+            android:textColor="@android:color/white"
+            style="@style/SwitchCompatStylePower"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/switchPower"
+            android:layout_weight="1"/>
+
+    <android.support.v7.widget.SwitchCompat
+            android:text="Connection"
+            android:textSize="@dimen/text_size"
+            android:maxLines="1"
+            android:switchPadding="@dimen/_20sdp"
+            android:textColor="@android:color/white"
+            style="@style/SwitchCompatStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/switchConnection"
+            android:layout_weight="1"/>
+
+    <android.support.v7.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:switchPadding="@dimen/_20sdp"
+            android:textColor="@android:color/white"
+            style="@style/SwitchCompatStyleCamera"
+            android:text="Camera"
+            android:textSize="@dimen/text_size"
+            android:layout_weight="1"
+            android:id="@+id/switchCamera"
+
+    />
+</LinearLayout>

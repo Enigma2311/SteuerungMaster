@@ -9,7 +9,9 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context="fh_swf.mechatronik.OptionsActivity">
+        android:background="@android:color/black"
+        tools:context="fh_swf.mechatronik.activities.OptionsActivity"
+        android:keepScreenOn="true">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -20,7 +22,26 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true" android:layout_alignParentStart="true">
             <TextView
+                    android:text="Profilname"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/options_text_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/profilNameText"/>
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/options_text_size"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/darker_gray"
+                    android:ems="10"
+                    android:layout_marginBottom="@dimen/profile_options_margin"
+                    android:maxLength="15"
+                    android:id="@+id/profilNameInput" android:hint="max. 15 Zeichen"/>
+            <TextView
                     android:text="Profil:"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/options_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/profileText"/>
             <RadioGroup
@@ -28,19 +49,31 @@
                     android:id="@+id/profil_RadioGroup">
                 <RadioButton
                         android:text="Hexapod"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/radio_Hexapod" android:layout_weight="1"/>
                 <RadioButton
                         android:text="Mini-Segway"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/radio_Segway" android:layout_weight="1"/>
                 <RadioButton
                         android:text="BB-8"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
+                        android:layout_marginBottom="@dimen/profile_options_margin"
                         android:layout_height="wrap_content" android:id="@+id/radio_bb8" android:layout_weight="1"/>
             </RadioGroup>
             <TextView
                     android:text="Nulllage-Voreinstellung:"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/options_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/nulllageText"/>
             <RadioGroup
@@ -48,51 +81,72 @@
                     android:layout_height="wrap_content" android:id="@+id/nulllage_RadioGroup">
                 <RadioButton
                         android:text="0 Grad"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/radioBtn_lage_0" android:layout_weight="1"/>
                 <RadioButton
                         android:text="15 Grad"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/radioBtn_lage_15" android:layout_weight="1"/>
                 <RadioButton
                         android:text="30 Grad"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
+                        android:layout_marginBottom="@dimen/profile_options_margin"
                         android:layout_height="wrap_content" android:id="@+id/radioBtn_lage_30" android:layout_weight="1"/>
             </RadioGroup>
             <TextView
                     android:text="Datenübertragung:"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/options_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/transmissionText"/>
             <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:inputType="numberSigned"
+                    android:textSize="@dimen/options_text_size"
                     android:ems="10"
-                    android:hint="Hier Wert angeben!"
+                    android:hint="0, 50-1000"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginBottom="@dimen/profile_options_margin"
                     android:id="@+id/transmissionInput"/>
             <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/transmissionGrp">
                 <RadioButton
                         android:text="Bluetooth"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/radioBtn_BlueTooth" android:layout_weight="1"/>
                 <RadioButton
                         android:text="WLAN"
+                        android:textColor="@android:color/white"
+                        android:buttonTint="@android:color/white"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_width="match_parent"
+                        android:layout_marginBottom="@dimen/profile_options_margin"
                         android:layout_height="wrap_content" android:id="@+id/radioBtn_WLAN" android:layout_weight="1"/>
                 <Button
-                        android:text="connect a Device"
+                        android:text="Verbindungsdaten angeben"
                         android:layout_width="wrap_content"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_height="wrap_content" android:id="@+id/deviceListBtn" android:layout_weight="1"/>
                 <Button
-                        android:text="Save Data"
+                        android:text="Profil speichern"
                         android:layout_width="wrap_content"
+                        android:textSize="@dimen/options_text_size"
                         android:layout_height="wrap_content" android:id="@+id/saveBtn" android:layout_weight="1"/>
-                <Button
-                        android:text="Load Data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/loadBtn" android:layout_weight="1"/>
             </RadioGroup>
         </LinearLayout>
     </ScrollView>

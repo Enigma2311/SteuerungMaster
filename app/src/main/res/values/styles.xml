@@ -19,5 +19,17 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+    <style name="SwitchCompatStyle">
+        <item name="android:thumb">@drawable/custom_switch_thumb</item>
+        <item name="trackTint">@color/switch_color_full</item>
+    </style>
+    <style name="SwitchCompatStylePower">
+        <item name="android:thumb">@drawable/custom_switch_thumb_power</item>
+        <item name="trackTint">@color/switch_color_full</item>
+    </style>
+    <style name="SwitchCompatStyleCamera">
+        <item name="android:thumb">@drawable/custom_switch_thumb_camera</item>
+        <item name="trackTint">@color/switch_color_full</item>
+    </style>
 
 </resources>

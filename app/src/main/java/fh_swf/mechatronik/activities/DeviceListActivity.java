@@ -1,18 +1,21 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.activities;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.*;
+import fh_swf.mechatronik.R;
+import fh_swf.mechatronik.model.OptionsModel;
+
 import java.util.Set;
 
 /**
  *  Aktivität die alle per Bluetooth gekoppelten Geräte in einer Liste anzeigt und die Möglichkeit bietet per Antippen eines
- *  Eintrags eine Verbindung herzustellen.
+ *  Eintrags dessen Adresse zu speichern.
  *
  *  Created by Fabian Schäfer on 06.04.2017.
  *
@@ -25,7 +28,6 @@ public class DeviceListActivity extends AppCompatActivity {
     private BluetoothAdapter mBtAdapter;                        // Bluetooth-Adapter der benötigt wird um die gekoppelten Geräte anzuzeigen.
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;    // Array welches die gekoppelten Geräte aufnimmt.
     private String address;                                     // Bluetooth-MAC-Adresse des Zielgeräts.
-    private BlueToothConnection btConnection;                   // Objekt für die Bluetooth-Verbindung.
     private OptionsModel optionsData;                           // Objekt für die Optionsdaten.
 
 
@@ -46,15 +48,14 @@ public class DeviceListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
 
-        btConnection = null;
         optionsData = OptionsModel.getInstance();
 
-        textConnectionStatus = (TextView) findViewById(R.id.connecting);
+        textConnectionStatus = findViewById(R.id.connecting);
         textConnectionStatus.setTextSize(40);
 
         mPairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
 
-        pairedListView = (ListView) findViewById(R.id.paired_devices);
+        pairedListView = findViewById(R.id.paired_devices);
         pairedListView.setAdapter(mPairedDevicesArrayAdapter);
 
         mDeviceClickListener();
@@ -126,8 +127,8 @@ public class DeviceListActivity extends AppCompatActivity {
     }
 
     /**
-     *  Listener der bei Antippen eines Eintrags in der Liste der gekoppelten Geräte die "BluteoothConnection"
-     *  Klasse initialisiert und die MAC-Adresse des gewählten Geräts übergibt.
+     *  Listener der bei Antippen eines Eintrags in der Liste der gekoppelten Geräte die
+     *  MAC-Adresse des gewählten Geräts in den Profildaten speichert und die Activity beendet.
      */
 
     private void mDeviceClickListener()
@@ -135,32 +136,21 @@ public class DeviceListActivity extends AppCompatActivity {
         pairedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                textConnectionStatus.setText("Connecting...");
                 String info = ((TextView) view).getText().toString();
                 address = info.substring(info.length() - 17);    //Extrahieren der Mac-Adresse
-                if(btConnection == null) {
-                    btConnection = new BlueToothConnection(DeviceListActivity.this);   // Initialisierung der Bluetooth-Verbindung
-                    optionsData.setBluetoothAddress(address);
+                optionsData.setBluetoothAddress(address);
+                finish();
                 }
-                if(btConnection.getBlueSocket().isConnected())
-                {
-                    textConnectionStatus.setText("Connected!");
-                }
-            }
         });
     }
 
     /**
-     * Getter für die MAC-Adresse.
-     *
-     * @return
-     *
-     * Die MAC-Adresse des ausgewählten Geräts.
-     *
+     * Deaktivierung der zurück-Taste um Fehler oder versehentliches Betätigen zu vermeiden.
      */
 
-    String getAddress() {
-        return address;
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 
 }

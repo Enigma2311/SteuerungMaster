@@ -1,12 +1,20 @@
-package fh_swf.mechatronik;
+package fh_swf.mechatronik.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import fh_swf.mechatronik.R;
+import fh_swf.mechatronik.model.OptionsModel;
+import fh_swf.mechatronik.model.ProfileDataStorage;
+
+import java.util.Objects;
 
 
 /**
@@ -27,8 +35,12 @@ public class OptionsActivity extends AppCompatActivity {
     private RadioGroup transmissionType;    // Radio-Button-Gruppe für die Auswahl des Übetragungstyps (WLAN oder Bluetooth).
     private Button deviceListBtn;           // Button zum Aufruf der Verbindungsaktivität zur Herstellung einer Verbindung.
     private Button saveBtn;                 // Button zum Speichern der Einstellungen eines Profils.
-    private Button loadBtn;                 // Button für das Laden des gewählten Profils.
     private ProfileDataStorage stor;        // Storage-Objekt zum Speichern der Optionsdaten in den SharedPreferences des Geräts.
+    private EditText profileName;           // Texteingabe für den Profilnamen (max. 15 Zeichen)
+    private boolean isEdit;                 // Hilfswert um Einstellungen für die Editierung eines Profils zu tätigen.
+    private int mListIndex;                 // Hilfsvariable um die Position eines Eintrags in der Liste zu speichern.
+    private boolean connectionStatus = false;  // Hilfsvariable um sicherzustellen das Verbindungsdaten angegeben wurden.
+
 
 
     /**
@@ -51,21 +63,37 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     /**
+     * Einstellung der vorhandenen Daten wenn ein Profil editiert wird.
+     */
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        if(isEdit)
+        setButtons();
+
+
+    }
+
+    /**
      *  Methode die alle zu Initialisierenden Elemente enthält.
      *  Der Aufruf erfolgt in der onCreate Methode.
      */
 
     private void initializeOptions()
     {
-        profileGrp = (RadioGroup) findViewById(R.id.profil_RadioGroup);
-        nullLageGrp = (RadioGroup) findViewById(R.id.nulllage_RadioGroup);
-        transmissionText = (EditText) findViewById(R.id.transmissionInput);
-        transmissionType = (RadioGroup) findViewById(R.id.transmissionGrp);
-        deviceListBtn = (Button) findViewById(R.id.deviceListBtn);
-        saveBtn = (Button) findViewById(R.id.saveBtn);
-        loadBtn = (Button) findViewById(R.id.loadBtn);
+        profileGrp = findViewById(R.id.profil_RadioGroup);
+        nullLageGrp = findViewById(R.id.nulllage_RadioGroup);
+        transmissionText = findViewById(R.id.transmissionInput);
+        transmissionType = findViewById(R.id.transmissionGrp);
+        deviceListBtn = findViewById(R.id.deviceListBtn);
+        saveBtn = findViewById(R.id.saveBtn);
+        profileName = findViewById(R.id.profilNameInput);
 
         stor = new ProfileDataStorage();
+        isEdit = false;
 
         radioGroupProfile();
         radioGroupNullage();
@@ -73,11 +101,18 @@ public class OptionsActivity extends AppCompatActivity {
         transmissionTypeSetting();
         setDeviceListBtnAction();
         submitDataToMainActivity();
-        setButtons();
-        loadProfileDataOnClick();
+
+        if(Objects.requireNonNull(getIntent().getExtras()).getInt("ActionID") == 2)
+        {
+            isEdit = true;
+            mListIndex = getIntent().getExtras().getInt("Index");
+            setButtons();
+        }
 
 
     }
+
+
 
     /**
      * Methode die beim erneuten Aufruf der Optionen die bisher getätigten Einstellungen setzt und anzeigt.
@@ -119,12 +154,14 @@ public class OptionsActivity extends AppCompatActivity {
             default: transmissionType.clearCheck();
         }
 
+        profileName.setText(optionsData.getCurrentProfile());
+
     }
 
     /**
      * Listener der Radio-Button-Gruppe für die Auswahl des Profils.
-     * Bei der Auswahl eines Profils wird ein Profilwert (1,2 oder 3) gesetzt welcher intern
-     * weiter verwendet wird um Profilbedingte Einstellungen zu ermöglichen.
+     * Bei der Auswahl eines Profils wird ein Profilwert (1,2 oder 3) gesetzt, welcher intern
+     * weiter verwendet wird um profilbedingte Einstellungen zu ermöglichen.
      */
 
     private void radioGroupProfile()
@@ -258,10 +295,12 @@ public class OptionsActivity extends AppCompatActivity {
                 {
                     case R.id.radioBtn_BlueTooth:
                          Intent i = new Intent(OptionsActivity.this, DeviceListActivity.class);
+                         connectionStatus = true;
                          startActivity(i);
                     break;
                     case R.id.radioBtn_WLAN:
                         Intent j = new Intent(OptionsActivity.this, WifiConnectionActivity.class);
+                        connectionStatus = true;
                         startActivity(j);
                         break;
                         default: Toast.makeText(OptionsActivity.this, "Keine Verbindungsart ausgewählt!", Toast.LENGTH_LONG).show();
@@ -278,75 +317,18 @@ public class OptionsActivity extends AppCompatActivity {
      * Sollten nicht alle Werte angegeben werden oder der Wert des Übertragungsintervalls fehlerhaft sein, wird eine Meldung angezeigt.
      */
 
-    private void submitDataToMainActivity()
-    {
+    private void submitDataToMainActivity() {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(optionsData.getTransmissionTime() == 1 || (optionsData.getTransmissionTime() <= 1000 && optionsData.getTransmissionTime() >= 50)) {
-                    if(nullLageGrp.getCheckedRadioButtonId() != -1 && profileGrp.getCheckedRadioButtonId() != -1) {
-                        Intent optionsActivityIntent = new Intent();
+            saveData();
 
-                        int profile = profileGrp.getCheckedRadioButtonId();
-
-                        optionsActivityIntent.putExtra("profile", profile);
-
-                        setResult(2, optionsActivityIntent);
-
-                        switch (profileGrp.getCheckedRadioButtonId()) {
-                            case R.id.radio_Hexapod:
-                                stor.setBytes(OptionsActivity.this, optionsData.getOptionsDataSet(), 1);
-                                break;
-                            case R.id.radio_Segway:
-                                stor.setBytes(OptionsActivity.this, optionsData.getOptionsDataSet(), 2);
-                                break;
-                            case R.id.radio_bb8:
-                                stor.setBytes(OptionsActivity.this, optionsData.getOptionsDataSet(), 3);
-                        }
-                        finish();
-                    }
-                    else
-                    {
-                        Toast.makeText(OptionsActivity.this, "Bitte alle Werte angeben!", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                else
-                {
-                    Toast.makeText(OptionsActivity.this, "Unzulässiger Übertragungswert!", Toast.LENGTH_LONG).show();
-                }
             }
         });
     }
 
-    /**
-     * Button-Listener, welcher beim Drücken des "LOAD DATA" Buttons die Daten des ausgewählten Profils
-     * aus den SharedPreferences lädt (sofern vorhanden).
-     */
 
-    private void loadProfileDataOnClick(){
-
-        loadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switch (profileGrp.getCheckedRadioButtonId()){
-
-                    case R.id.radio_Hexapod: stor.getBytes(OptionsActivity.this, 1);
-                    break;
-                    case R.id.radio_Segway: stor.getBytes(OptionsActivity.this, 2);
-                    break;
-                    case R.id.radio_bb8: stor.getBytes(OptionsActivity.this, 3);
-
-                }
-
-                setButtons();
-
-            }
-        });
-
-    }
 
     /**
      * Überschreiben des Zurück-Knopfs des Mobilgeräts, damit die Optionen nicht ohne Speichern der Daten
@@ -358,6 +340,96 @@ public class OptionsActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Bitte SAVE DATA zum Verlassen drücken.", Toast.LENGTH_LONG).show();
 
+    }
+
+    private boolean setProfileName () {
+        String tempName = profileName.getText().toString().trim();
+        boolean checkIfEmpty = tempName.length() > 0;
+        boolean checkIfEditEntryExists = optionsData.getProfileNamesList().indexOf(profileName.getText().toString()) == mListIndex;
+        boolean checkIfEntryExists = checkIfEntryExists();
+
+
+            if (checkIfEmpty) {
+                if (!checkIfEntryExists && !isEdit)
+                {
+                    optionsData.addProfileName(profileName.getText().toString());
+                    optionsData.setCurrentProfile(profileName.getText().toString());
+                    return true;
+                }
+                else if (checkIfEntryExists && isEdit && checkIfEditEntryExists || !checkIfEntryExists)
+                {
+                    optionsData.getProfileNamesList().remove(mListIndex);
+                    optionsData.getProfileNamesList().add(mListIndex, profileName.getText().toString());
+                    optionsData.setCurrentProfile(profileName.getText().toString());
+                    return true;
+                }
+                else
+                {
+                    Toast.makeText(this, "Profilname existiert bereits, bitte anderen Namen wählen!", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
+            else
+            {
+                Toast.makeText(this, "Profilname darf nicht leer sein, bitte geben Sie einen Namen an!", Toast.LENGTH_LONG).show();
+                return false;
+            }
+    }
+
+    /**
+     * Prüfung ob ein Profilname bereits existiert.
+     *
+     * @return true, falls der Eintrag existiert, false falls nicht.
+     */
+
+    private boolean checkIfEntryExists()
+    {
+        for(String entry : optionsData.getProfileNamesList())
+        {
+            if(entry.equals(profileName.getText().toString()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Speichern aller Profilnamen in den Shared Preferences des Android-Geräts, um ein Laden der Daten
+     * beim erneuten Nutzen der Applikation zu ermöglichen.
+     */
+
+    private void saveData() {
+
+        if(checkValues() && setProfileName()) {
+
+            stor.saveProfileNamesArray(OptionsActivity.this, optionsData.getProfileNamesList());
+            stor.setBytes(OptionsActivity.this, optionsData.getOptionsDataSet());
+            connectionStatus = false;
+            finish();
+        }
+
+    }
+
+    /**
+     * Eine check-Methode, um zu prüfen ob alle Angaben für die Erstellung eines Profils angegeben wurden.
+     *
+     * @return true, falls alle Angaben vorhanden sind, false mit Fehlermeldung falls Datensätze unvollständig sind.
+     */
+
+
+    private boolean checkValues() {
+        if (optionsData.getTransmissionTime() == 1 || (optionsData.getTransmissionTime() <= 1000 && optionsData.getTransmissionTime() >= 50)) {
+            if (nullLageGrp.getCheckedRadioButtonId() != -1 && profileGrp.getCheckedRadioButtonId() != -1 && connectionStatus) {
+                return true;
+            } else {
+                Toast.makeText(OptionsActivity.this, "Bitte alle Werte, inklusive Verbindungsdaten, angeben!", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } else {
+            Toast.makeText(OptionsActivity.this, "Unzulässiger Übertragungswert!", Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
 }
